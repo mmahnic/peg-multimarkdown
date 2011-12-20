@@ -50,7 +50,7 @@ luatexbase.add_to_callback('open_read_file',
                         return rv
                      end
      else
-        print(asked_name)
+        --print(asked_name)
         tab.file = assert(io.open(asked_name))
         tab.reader = function (t)
                         local f = t.file

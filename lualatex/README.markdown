@@ -21,6 +21,14 @@ Note: This package is currently at a level of a proof-of-concept. It was
 developed and tested on Ubuntu 11.10 with TeXLive-20111220.
 
 
+# Installation and Test #
+
+    cd lualatex
+    make
+    cd test
+    bash doit.sh
+
+
 # The \startmarkdown Command #
 
 The \startmarkdown uses the successive group as comma deilimited list of parameters:

@@ -145,10 +145,13 @@ function multimarkdown.includemarkdown(filename, params)
 
     f = assert(io.open(filename))
     for s in f:lines() do
-        inputblock.append(s)
+        -- TODO: remove (some) headers, otherwise it could be treated as a standalone document
+        table.insert(inputblock, s)
     end
     f:close()
 
+    local mkd = table.concat(inputblock, "\n")
+    inputblock = {}
     local latex = multimarkdownlualib.tolatex(mkd)
     outputblock = string.explode(latex,"\n")
     tex.print("\\input{multimarkdowninput:outputblock}\\directlua{multimarkdown.cleanup('')}")

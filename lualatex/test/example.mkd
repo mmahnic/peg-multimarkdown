@@ -1,7 +1,3 @@
-Title:                  LaTeX input processor for MultiMarkdown  
-Author:                 Marko Mahnič  
-Base Header Level:      2  
-Status:                 Proof of concept
 
 # Description #
 
@@ -25,7 +21,7 @@ developed and tested on Ubuntu 11.10 with TeXLive-20111220.
 
 The \startmarkdown uses the successive group as comma deilimited list of parameters:
 
-    \startmarkdown{parameters}
+    \startmarkdown{...parameters...}
 
 It recognizes the following parameters:
 
@@ -49,5 +45,5 @@ be detected by ite input buffer processor.
 The \includemarkdown uses two groups. The first group names the file to be
 included, the second lists the parameters as in \startmarkdown:
 
-    \startmarkdown{filename}{parameters}
+    \startmarkdown{filename}{...parameters...}
 

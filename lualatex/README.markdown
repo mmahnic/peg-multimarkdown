@@ -57,5 +57,5 @@ be detected by ite input buffer processor.
 The \includemarkdown uses two groups. The first group names the file to be
 included, the second lists the parameters as in \startmarkdown:
 
-    \startmarkdown{filename}{parameters}
+    \includemarkdown{filename}{parameters}
 

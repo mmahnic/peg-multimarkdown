@@ -13,7 +13,19 @@ multimarkdown.module = {
 
 luatexbase.provides_module(multimarkdown.module)
 
-require "multimarkdownlualib"
+local multimarkdownlualib = require("multimarkdownlualib")
+local dolatex = function(text, options)
+        return multimarkdownlualib.tolatex(text) 
+    end
+
+-- This could work with lunamark. Unfortunately lpeg.B is nil in lautex.
+--local lunamark = require("lunamark")
+--dolatex = function(text, options)
+--    local opts = { }
+--    local writer = lunamark.writer.latex.new(opts)
+--    return lunamark.reader.markdown.new(writer, opts)
+--end
+
 local inputblock = {}
 local outputblock = {}
 
@@ -22,14 +34,7 @@ luatexbase.add_to_callback('find_read_file',
       if string.match(asked_name, "^multimarkdowninput:") then
          return asked_name
       end
-      -- TODO: how can we get the default behaviour for other files?
-      -- For now we just check if it exists
-      f = io.open(asked_name,"r")
-      if f then
-         f:close()
-         return asked_name
-      end
-      return nil
+      return kpse.find_file(asked_name, true)
    end,
   'multimarkdown.find_read_file'
 )
@@ -68,10 +73,8 @@ function multimarkdown.addmkdline(line)
         luatexbase.remove_from_callback('process_input_buffer', 'multimarkdown.addmkdline')
         local mkd = table.concat(inputblock, "\n")
         inputblock = {}
-        --latex = [[It still works.
-        --Now in multiple lines, too.]]
 
-        local latex = multimarkdownlualib.tolatex(mkd)
+        local latex = dolatex(mkd, nil)
         outputblock = string.explode(latex,"\n")
         return "\\input{multimarkdowninput:outputblock}\\directlua{multimarkdown.cleanup('')}"
 

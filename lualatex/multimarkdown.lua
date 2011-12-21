@@ -18,7 +18,7 @@ local dolatex = function(text, options)
         return multimarkdownlualib.tolatex(text) 
     end
 
--- This could work with lunamark. Unfortunately lpeg.B is nil in lautex.
+-- This could work with lunamark. Unfortunately lpeg.B is nil in lautex (20111220).
 --local lunamark = require("lunamark")
 --dolatex = function(text, options)
 --    local opts = { }
@@ -26,6 +26,8 @@ local dolatex = function(text, options)
 --    return lunamark.reader.markdown.new(writer, opts)
 --end
 
+-- TODO: a stack of input/output blocks for nested markdown blocks
+-- (this case is unlikely, but could happen)
 local inputblock = {}
 local outputblock = {}
 

@@ -30,37 +30,35 @@ local inputblock = {}
 local outputblock = {}
 
 luatexbase.add_to_callback('find_read_file',
-   function(id_number,asked_name)
-      if string.match(asked_name, "^multimarkdowninput:") then
-         return asked_name
-      end
-      return kpse.find_file(asked_name, true)
-   end,
-  'multimarkdown.find_read_file'
+    function(id_number,asked_name)
+        if string.match(asked_name, "^multimarkdowninput:") then
+            return asked_name
+        end
+        return kpse.find_file(asked_name, true)
+    end,
+    'multimarkdown.find_read_file'
 )
 
 luatexbase.add_to_callback('open_read_file',
   function(asked_name)
-     --texio.write_nl("open_read_file " .. asked_name .. "\n")
      local tab = { }
      if string.match(asked_name, "^multimarkdowninput:") then
         tab.file = outputblock
         tab.i = 0
         tab.reader = function (t)
-                        if t.i > table.maxn(t.file) then
-                           return nil
-                        end
-                        local rv = t.file[t.i]
-                        t.i = t.i + 1
-                        return rv
-                     end
+            if t.i > table.maxn(t.file) then
+                return nil
+            end
+            local rv = t.file[t.i]
+            t.i = t.i + 1
+            return rv
+        end
      else
-        --print(asked_name)
         tab.file = assert(io.open(asked_name))
         tab.reader = function (t)
-                        local f = t.file
-                        return f:read('*l')
-                     end
+            local f = t.file
+            return f:read('*l')
+        end
      end
      return tab
   end,
